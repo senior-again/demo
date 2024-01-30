@@ -1,0 +1,47 @@
+name: Backend Build and Push and deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # 가장 최신의 Ubuntu 러너를 사용한다.
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      # 현재 리포지토리를 체크아웃한다.
+    
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v3.0.0
+      # Docker Buildx를 설정한다
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3.0.0
+      with: 
+        username: ${{secrets.DOCKERHUB_USERNAME}}
+        # Github Secret에서 DockerHub 사용자 이름을 가져온다.
+        
+        password: ${{secrets.DOCKERHUB_TOKEN}}
+        # Github Secret에서 DockerHub 액세스 토큰을 가져온다.
+
+    - name: Build and Push
+      uses: docker/build-push-action@v2
+      with:
+        context: ./  
+        # Dockerfile이 있는 위치
+        file: ./Dockerfile  
+        # Dockerfile의 경로
+        push: true  
+        # 이미지를 레지스트리에 푸시.
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/sum-backend:${{ github.sha }}  
+        platforms: linux/amd64,linux/arm64,windows/amd64
+
+
+
+
+          
