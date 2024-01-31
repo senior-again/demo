@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    paths:
+      - '/**'
+      # 지금은 현재 경로로 작성되어있지만 .github와 프로젝트를 다른 폴더에 위치시키자.. 안그러면 yml만 수정하고 푸시해도 자꾸 워크플로우 돌게된다.
 
 jobs:
   build:
@@ -41,7 +44,19 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/sum-backend:${{ github.sha }}  
         platforms: linux/amd64,linux/arm64,windows/amd64
 
-
+    - name: WAS 인스턴스 접속 및 애플리케이션 실행 
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.WAS_USERNAME }}
+        key: ${{ secrets.WAS_KEY }}
+        port: 22
+        script: |
+          docker rm -f $(docker ps -qa)
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sum-backend:${{ github.sha }}
+          docker run -d -p 8080:8080 --name sum-backend ${{ secrets.DOCKERHUB_USERNAME }}/sum-backend:${{ github.sha }}
+          
+  
 
 
           
