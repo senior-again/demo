@@ -17,7 +17,7 @@ COPY . /app
 # Gradle 빌드를 실행하여 JAR 파일 생성
 RUN gradle clean build --no-daemon
 
-FROM openjdk:17-slim
+FROM openjdk:17-ea-33-jdk-buster
 
 WORKDIR /app
 
