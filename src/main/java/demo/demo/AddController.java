@@ -13,7 +13,7 @@ public class AddController {
     @GetMapping("/sum/{a}/{b}")
     public String add(@PathVariable int a, @PathVariable int b){
         log.info("a+b = {}",a+b);
-        return "oks";
+        return "ok";
     }
 
 }
