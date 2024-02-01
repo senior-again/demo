@@ -20,7 +20,7 @@ jobs:
       # 현재 리포지토리를 체크아웃한다.
     
     - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v3.0.0
+      uses: docker/setup-buildx-action@v3
       # Docker Buildx를 설정한다
 
     - name: Login to Docker Hub
