@@ -1,6 +1,6 @@
 # Dockerfile
 # gradle && jdk17 이미지 빌드 - build 별명
-FROM gradle:8.3-jdk17-alpine AS build
+FROM --platform=linux/amd64 gradle:8.3-jdk17-alpine AS build
 
 # 작업 디렉토리 /app 생성
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . /app
 # Gradle 빌드를 실행하여 JAR 파일 생성
 RUN gradle clean build --no-daemon
 
-FROM openjdk:17-ea-33-jdk-buster
+FROM --platform=linux/amd64 openjdk:17-ea-33-jdk-buster
 
 WORKDIR /app
 
