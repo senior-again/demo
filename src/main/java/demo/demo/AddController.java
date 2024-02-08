@@ -16,5 +16,10 @@ public class AddController {
         return "oks";
     }
 
+    @GetMapping("/sum")
+    public String addResult(){
+        return "잘 작동합니다";
+    }
+
 }
 
