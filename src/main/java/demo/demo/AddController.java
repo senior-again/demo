@@ -18,7 +18,7 @@ public class AddController {
 
     @GetMapping("/sum")
     public String addResult(){
-        return "잘 작동합니다";
+        return "잘 작동합니다?";
     }
 
 }
